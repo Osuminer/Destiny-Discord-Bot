@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+.content
+world_sql_content_4c97503460963fcd2ce43e97c372be87.content
