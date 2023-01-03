@@ -4,7 +4,7 @@ import requests
 DESTINY2_URL = 'https://www.bungie.net/Platform/Destiny2/'
 USER_URL = 'https://www.bungie.net/Platform/User/'
 GROUP_URL = 'https://www.bungie.net/Platform/GroupV2/'
-
+BUNGIE_URL = 'https://www.bungie.net'
 
 class API:
     def __init__(self, apiKey):
@@ -139,7 +139,8 @@ class API:
             json (dict)
         """
         url = DESTINY2_URL + '{}/Profile/{}/?components={}'
-        url = url.format(membership_type, membership_id, ','.join([str(i) for i in components]))
+        url = url.format(membership_type, membership_id,
+                         ','.join([str(i) for i in components]))
         return self._get_request(url)
 
     def get_character(self, membership_type, membership_id, character_id, components):
@@ -170,7 +171,8 @@ class API:
     def get_vendor(self, membership_type, membership_id, character_id, vendorHash, components):
 
         url = DESTINY2_URL + '{}/Profile/{}/Character/{}/Vendors/{}/?components={}'
-        url = url.format(membership_type, membership_id, character_id, vendorHash, ','.join([str(i) for i in components]))
+        url = url.format(membership_type, membership_id, character_id,
+                         vendorHash, ','.join([str(i) for i in components]))
 
         return self._get_request(url)
 
@@ -218,7 +220,8 @@ class API:
             json (dict)
         """
         url = DESTINY2_URL + '{}/Profile/{}/Item/{}/?components={}'
-        url = url.format(membership_type, membership_id, item_instance_id, ','.join([str(i) for i in components]))
+        url = url.format(membership_type, membership_id,
+                         item_instance_id, ','.join([str(i) for i in components]))
         return self._get_request(url)
 
     def get_post_game_carnage_report(self, activity_id):
@@ -264,7 +267,8 @@ class API:
 
         """
         url = DESTINY2_URL + '{}/Account/{}/Character/{}/Stats/?groups={}&modes={}'
-        url = url.format(membership_type, membership_id, character_id, ','.join([str(i) for i in groups]), ','.join([str(i) for i in modes]))
+        url = url.format(membership_type, membership_id, character_id, ','.join(
+            [str(i) for i in groups]), ','.join([str(i) for i in modes]))
         return self._get_request(url)
 
     def get_historical_stats_for_account(self, membership_type, membership_id, groups=[]):
@@ -280,7 +284,8 @@ class API:
                 (see Destiny.HistoricalStats.Definitions.DestinyStatsGroupType).
         """
         url = DESTINY2_URL + '{}/Account/{}/Stats/?groups={}'
-        url = url.format(membership_type, membership_id, ','.join([str(i) for i in groups]))
+        url = url.format(membership_type, membership_id,
+                         ','.join([str(i) for i in groups]))
         return self._get_request(url)
 
     def get_public_milestone_content(self, milestone_hash):
@@ -309,13 +314,13 @@ class API:
 
     def get_groups_for_member(self, membership_type, membership_id):
         """Gets information about the groups an individual member has joined
-        
+
         Args:
             membership_type (int):
                 A valid non-BungieNet membership type (BungieMembershipType)
             membership_id (int):
                 Destiny membership ID
-        
+
         Returns:
             json(dict)
         """
@@ -326,11 +331,11 @@ class API:
 
     def get_members_of_group(self, group_id, page=1):
         """Gets members of a group_id 
-        
+
         Args:
             group_id (int):
                 Destiny group ID
-        
+
         Returns:
             json(dict)
         """
@@ -355,20 +360,21 @@ class API:
 
     def get_milestone_definitions(self, milestone_hash):
         """Gets the milestones definition for a given milestoneHash
-        
+
         Args:
             milestone_hash (int):
                 The hash value that represents the milestone within the manifest
-                
+
         returns json(dict)
         """
         # /Manifest/DestinyMilestoneDefinition/{milestoneHash}
-        url = DESTINY2_URL + 'Manifest/DestinyMilestoneDefinition/{}'.format(milestone_hash)
+        url = DESTINY2_URL + \
+            'Manifest/DestinyMilestoneDefinition/{}'.format(milestone_hash)
         return self._get_request(url)
 
     def get_activity_history(self, membership_type, membership_id, character_id, count=1, mode=None, page=0):
         """Gets activity history stats for indicated character
-        
+
         Args:
             membership_type (int):
                 A valid non-BungieNet membership type
@@ -388,5 +394,13 @@ class API:
         returns json(dict)
         """
         # /{membershipType}/Account/{destinyMembershipId}/Character/{characterId}/Stats/Activities/
-        url = DESTINY2_URL + '{}/Account/{}/Character/{}/Stats/Activities/?mode={}&count={}&page={}'.format(membership_type, membership_id, character_id, mode, count, page)
+        url = DESTINY2_URL + '{}/Account/{}/Character/{}/Stats/Activities/?mode={}&count={}&page={}'.format(
+            membership_type, membership_id, character_id, mode, count, page)
         return self._get_request(url)
+
+    def get_image_url(self, icon):
+        url = BUNGIE_URL + icon
+
+        # print(url)
+
+        return url

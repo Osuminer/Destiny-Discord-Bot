@@ -20,22 +20,22 @@ print(memId)
 
 # pprint.pprint(e)
 
-# c = destiny.api.get_character(1, memId, '2305843009265615844', [204])
+c = destiny.api.get_character(1, memId, '2305843009265615844', [204])
 
 # pprint.pprint(destiny.decode_hash(2148295091, 'DestinyInventoryItemDefinition'))
 
 # pprint.pprint(c)
 
 # Print Current Nightfall
-# for activity in c['Response']['activities']['data']['availableActivities']:
-#     x = destiny.decode_hash(
-#         activity['activityHash'], 'DestinyActivityDefinition')
-#     pprint.pprint(x)
+for activity in c['Response']['activities']['data']['availableActivities']:
+    x = destiny.decode_hash(
+        activity['activityHash'], 'DestinyActivityDefinition')
+    # pprint.pprint(x)
 
-#     if 'Nightfall: Master' in x['displayProperties']['name']:
-#         name = x['displayProperties']['description']
-#         # print(name)
-#         # pprint(x)
+    if 'Nightfall: Master' in x['displayProperties']['name']:
+        name = x['displayProperties']['description']
+        # print(name)
+        pprint.pprint(x)
 
 #         # for rewards in x['rewards'][0]['rewardItems']:
 #         #     # p.pprint(rewards)
