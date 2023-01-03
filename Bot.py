@@ -1,21 +1,16 @@
-from PyDest import PyDest
+from keys import DISCORD_API_TOKEN, BUNGIE_API_TOKEN
+from PyDest import pydest
 import discord
 from discord import app_commands
 from discord.ext import tasks, commands
 import pprint
 
-
-# Set api key values from file
-with open('.env', 'r') as f:
-	DISCORD_API_KEY = f.readline().rstrip('\n')
-	BUNGIE_API_KEY = f.readline().rstrip('\n')
-
 # Setup discord bot
 bot = commands.Bot(command_prefix="$", intents=discord.Intents.default())
 
 # Setup pydest api wrapper
-destiny = PyDest(BUNGIE_API_KEY)
-HEADERS = {"X-API-Key":BUNGIE_API_KEY}
+destiny = pydest(BUNGIE_API_TOKEN)
+HEADERS = {"X-API-Key":BUNGIE_API_TOKEN}
 
 # Sync commands with Discord on bot startup
 @bot.event
@@ -42,4 +37,4 @@ async def GetPlayer(interaction: discord.Interaction, bungie_id: str):
 	await interaction.response.send_message(f"{interaction.user.name}, your membership id is {memId}", ephemeral=True)
 
 
-bot.run(DISCORD_API_KEY)
+bot.run(DISCORD_API_TOKEN)
