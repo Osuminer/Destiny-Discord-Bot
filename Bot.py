@@ -1,5 +1,6 @@
 from keys import DISCORD_API_TOKEN, BUNGIE_API_TOKEN
 import PyDest
+import os
 import discord
 from discord import app_commands, interactions
 from discord.ext import tasks, commands
@@ -10,29 +11,30 @@ TOP_MODIFIERS = ['Shielded Foes', 'Champion Foes', 'Double Nightfall Drops', 'As
                  'Acute Arc Burn', 'Match Game', 'Champions: Mob', 'Attrition']
 
 # Setup discord bot
-bot = commands.Bot(command_prefix="$", intents=discord.Intents.default())
+bot = commands.Bot(command_prefix=".", intents=discord.Intents.default())
 
 # Setup pydest api wrapper
 destiny = PyDest.PyDest(BUNGIE_API_TOKEN)
 HEADERS = {"X-API-Key": BUNGIE_API_TOKEN}
 
-# Sync commands with Discord on bot startup
-
+@bot.event
+async def setup_hook():
+	# Load all cogs
+	for filename in os.listdir('./cogs'):
+		if filename.endswith('.py'):
+			await bot.load_extension(f'cogs.{filename[:-3]}')
+			print(f'Loaded {filename}')
 
 @bot.event
 async def on_ready():
     print(f'{bot.user} has connected')
 
+    # Sync commands with Discord on bot startup
     try:
         synced = await bot.tree.sync()
         print(f"Synced {len(synced)} commands\n")
     except Exception as e:
         print(e)
-
-
-@bot.tree.command(name="hello")
-async def hello(interaction: discord.Interaction):
-    await interaction.response.send_message(f'Hey {interaction.user.mention}!')
 
 
 # Print Membership Id
@@ -66,7 +68,7 @@ async def Nightfall(interaction: discord.Interaction):
             imageURL = destiny.api.get_image_url(decoded['pgcrImage'])
             thumbnailURL = destiny.api.get_image_url(
                 decoded['displayProperties']['icon'])
-            description = decoded['selectionScreenDisplayProperties']['description']
+            # description = decoded['selectionScreenDisplayProperties']['description']
 
             modifierList = list()
             modifierDesc = list()
