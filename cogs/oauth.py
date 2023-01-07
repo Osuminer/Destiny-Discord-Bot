@@ -1,6 +1,7 @@
 import discord
 from discord import app_commands
 from discord.ext import commands, tasks
+import pickle
 
 class Oauth(commands.Cog):
 	def __init__(self, bot) -> None:
@@ -16,6 +17,10 @@ class Oauth(commands.Cog):
 
 	# TODO: Serialize into dictionary
 
+
+	@commands.Cog.listener()
+	async def on_ready():
+		pass
 
 async def setup(bot):
 	await bot.add_cog(Oauth(bot))
