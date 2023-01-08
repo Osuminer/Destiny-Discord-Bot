@@ -19,7 +19,7 @@ code = input("Paste your code: ")
 content_type = {'Content-Type': 'application/x-www-form-urlencoded'}
 payload = {'grant_type': 'authorization_code',
            'code': code,
-           'client_id': '42221'}
+           'client_id': OAUTH_CLIENT_ID}
 
 r = session.post(
     url=TOKEN_URL,
