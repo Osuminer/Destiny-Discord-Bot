@@ -21,6 +21,19 @@ class API:
 
         return retVal.json()
 
+
+    def _get_request(self, url, access_token):
+        headers = {'X-API-Key': self._apiKey,
+                   'authorization': 'Bearer ' + access_token}
+        encodedUrl = urllib.parse.quote(url, safe=':/?&=,.')
+
+        try:
+            retVal = requests.get(url=encodedUrl, headers=headers)
+        except:
+            raise "Could not connect to Bungie.net"
+
+        return retVal.json()
+
     def get_bungie_net_user_by_id(self, bungie_id):
         """Loads a bungienet user by membership id
 
@@ -168,13 +181,13 @@ class API:
 
         return self._get_request(url)
 
-    def get_vendor(self, membership_type, membership_id, character_id, vendorHash, components):
+    def get_vendor(self, membership_type, membership_id, character_id, vendorHash, access_token, components):
 
         url = DESTINY2_URL + '{}/Profile/{}/Character/{}/Vendors/{}/?components={}'
         url = url.format(membership_type, membership_id, character_id,
                          vendorHash, ','.join([str(i) for i in components]))
 
-        return self._get_request(url)
+        return self._get_request(url, access_token)
 
     def get_vendors(self, components):
 

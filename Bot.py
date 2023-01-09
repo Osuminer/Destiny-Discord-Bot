@@ -20,6 +20,7 @@ bot = commands.Bot(command_prefix=".", intents=intents)
 destiny = PyDest.PyDest(BUNGIE_API_TOKEN)
 # HEADERS = {"X-API-Key": BUNGIE_API_TOKEN}
 
+
 @bot.event
 async def setup_hook():
 	# Load all cogs
@@ -41,7 +42,7 @@ async def on_ready():
 
 
 # Print Membership Id
-@bot.tree.command(name="getmemid")
+@bot.tree.command(name="getmemid", description='Get membership ID of a Bungie account')
 @app_commands.describe(bungie_id="Enter your bungie id")
 async def GetPlayer(interaction: discord.Interaction, bungie_id: str):
 

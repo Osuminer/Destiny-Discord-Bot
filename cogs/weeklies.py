@@ -13,10 +13,11 @@ class Weeklies(commands.Cog):
 		self.client = bot
 
 
-	@app_commands.command(name='pullnightfall')
+	@app_commands.command(name='pullnightfall', description='Get and save nightfall data')
 	async def PullNightfall(self, interaction: discord.Interaction):
 
 		filename = open('data/nightfall_data', 'wb')
+		await interaction.response.send_message("Nighfall data dumped")
 
 		memId = 4611686018430110693  # My hardcoded membership Id
 		characterId = 2305843009265615844  # My hardcoded character Id
@@ -25,18 +26,21 @@ class Weeklies(commands.Cog):
 
 		# Cycle through and decode the activities
 		for activity in character['Response']['activities']['data']['availableActivities']:
-			decoded = destiny.decode_hash(
-				activity['activityHash'], 'DestinyActivityDefinition')
+			decoded = destiny.decode_hash(activity['activityHash'], 'DestinyActivityDefinition')
 
 			# Find the Master Nightfall activity and decode it
 			if 'Nightfall: Master' in decoded['displayProperties']['name']:
 				pickle.dump(decoded, filename)
 				filename.close()
 
-				await interaction.response.send_message("Nighfall data dumped")
+				print("Nighfall data dumped")
+
 
 
 	# TODO: Get Xur data and save into file
+	@app_commands.command(name='pullxur', description='Get and save xur data')
+	async def PullXur(self, interaction: discord.Interaction):
+		pass
 
 
 async def setup(bot):
