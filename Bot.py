@@ -6,10 +6,6 @@ from discord import app_commands, interactions
 from discord.ext import tasks, commands
 import pprint
 
-# Constants
-TOP_MODIFIERS = ['Shielded Foes', 'Champion Foes', 'Double Nightfall Drops', 'Ashes to Ashes', 'Lightning Crystals',
-                 'Acute Arc Burn', 'Match Game', 'Champions: Mob', 'Attrition']
-
 # Setup discord bot
 intents = discord.Intents.default()
 intents.message_content = True

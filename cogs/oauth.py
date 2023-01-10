@@ -2,7 +2,7 @@ import discord
 from discord import app_commands, ui
 from discord.ext import commands, tasks
 from requests_oauthlib import OAuth2Session
-from keys import OAUTH_CLIENT_ID, OAUTH_SECRET
+from keys import OAUTH_CLIENT_ID, OAUTH_SECRET, OAUTH_AUTHORIZATION
 import pprint
 import pickle
 
@@ -32,7 +32,7 @@ class Oauth(commands.Cog):
 	# Get oauth access token
 	async def GetAccessToken(self, code):
 		headers = {'Content-Type': 'application/x-www-form-urlencoded',
-				   'Authorization': 'Basic NDIyMjE6MXZXckc0UXctcklwMlZwM1ZTc05YZUY1eFVRSHYtc1czMTNoR2FvaWtXaw=='}
+				   'Authorization': OAUTH_AUTHORIZATION}
 		payload = {'grant_type': 'authorization_code',
 				   'code': code}
 
@@ -46,7 +46,7 @@ class Oauth(commands.Cog):
 		pickle.dump(r, filename)
 		filename.close()
 
-	# TODO: Refresh access token
+	# Refresh access token
 	@app_commands.command(name='refreshtoken', description='Refresh Bungie API access token')
 	async def RefreshToken(self, interaction: discord.Interaction):
 		with open('data/oauth', 'rb') as filename:
@@ -73,7 +73,7 @@ class Oauth(commands.Cog):
 
 		await interaction.response.send_message("Access token was refreshed", ephemeral=True)
 
-	# Possibly store everyone's oauth jsons in a database
+	# TODO: Possibly store everyone's oauth jsons in a database
 
 
 async def setup(bot):
